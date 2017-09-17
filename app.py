@@ -43,7 +43,7 @@ def webhook():
   print ("WWW")
   print (req["events"])
   print ("WWW")
-  for event in req:
+  for event in req["events"]:
     print (type(event))
     reply_token = event["replyToken"]
     try:
