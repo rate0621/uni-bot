@@ -45,15 +45,16 @@ def line_action(event):
 
 @app.route("/", methods=['GET'])
 def test():
-    hoge = request.args.get('hoge', '')
-    match = re.search("^譜面定数\s(.+)", hoge)
-    if match:
-      music_name = match.group(1)
-      getBaseRate(music_name)
-      return "OK"
-    else:
-      return "NG"
-    #return '<h1> test </h1>'
+  return 'テスト'
+#    hoge = request.args.get('hoge', '')
+#    match = re.search("^譜面定数\s(.+)", hoge)
+#    if match:
+#      music_name = match.group(1)
+#      getBaseRate(music_name)
+#      return "OK"
+#    else:
+#      return "NG"
+#    #return '<h1> test </h1>'
 
 if __name__ == "__main__":
     #context = ('cert/server.pem', 'cert/privkey.pem')
