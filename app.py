@@ -46,6 +46,7 @@ def webhook():
     except LineBotApiError as e:
       print ("ERROR")
   
+  return ""
   #body = request.get_data(as_text=True)
   #print 
 
