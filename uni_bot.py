@@ -38,8 +38,15 @@ def getBaseRate(music_name):
       print ("ごめん、その曲は見つからなかったよ")
 
 @app.route("/webhook", methods=['POST'])
-def line_action():
-  print (request.get_data(as_text=True))
+def webhook():
+  req = request.get_data(as_text=True)
+  for event in req["events"]:
+    reply_token = event["replyToken"]
+    try:
+      line_bot_api.reply_message(reply_token, TextSendMessage(text='Hello!'))
+    except LineBotApiError as e:
+      print ("ERROR")
+  
   #body = request.get_data(as_text=True)
   #print 
 
