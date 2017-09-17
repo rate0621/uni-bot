@@ -57,6 +57,6 @@ def test():
 
 if __name__ == "__main__":
     #context = ('cert/server.pem', 'cert/privkey.pem')
-    app.run(host='0.0.0.0', port=4000, debug=True)
+    app.run(debug=True)
 
 
