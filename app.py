@@ -44,8 +44,8 @@ def webhook():
   print (req["events"])
   print ("WWW")
   for event in req:
-    print (event)
-    reply_token = event[0]["replyToken"]
+    print (type(event))
+    reply_token = event["replyToken"]
     try:
       line_bot_api.reply_message(reply_token, TextSendMessage(text='Hello!'))
     except LineBotApiError as e:
