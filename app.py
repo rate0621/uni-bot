@@ -15,10 +15,9 @@ BASE_URL = 'https://apex.oracle.com/pls/apex/chunithm/chunithm_music/';
 line_token = os.environ["LINE_CHANNEL_ACCESS_TOKEN"]
 
 app = Flask(__name__)
+line_bot_api = LineBotApi(line_token)
 
 def getBaseRate(music_name):
-  line_bot_api = LineBotApi(line_token)
-
   #encoded_music_name = music_name.encode()
   encoded = urllib.parse.quote(music_name)
   #print (encode)
@@ -40,11 +39,7 @@ def getBaseRate(music_name):
 @app.route("/webhook", methods=['POST'])
 def webhook():
   req = json.loads(request.get_data(as_text=True))
-  print ("WWW")
-  print (req["events"])
-  print ("WWW")
   for event in req["events"]:
-    print (type(event))
     reply_token = event["replyToken"]
     try:
       line_bot_api.reply_message(reply_token, TextSendMessage(text='Hello!'))
