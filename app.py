@@ -39,7 +39,7 @@ def getBaseRate(music_name):
 
 @app.route("/webhook", methods=['POST'])
 def line_action():
-  print (events)
+  print (request.get_data(as_text=True))
   #body = request.get_data(as_text=True)
   #print 
 
