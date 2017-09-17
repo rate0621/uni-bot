@@ -40,9 +40,10 @@ def getBaseRate(music_name):
 @app.route("/webhook", methods=['POST'])
 def webhook():
   req = request.get_data(as_text=True)
-  print (req)
+  #print (req)
   for event in req:
-    reply_token = event["replyToken"]
+    print (event)
+    reply_token = event[0]["replyToken"]
     try:
       line_bot_api.reply_message(reply_token, TextSendMessage(text='Hello!'))
     except LineBotApiError as e:
