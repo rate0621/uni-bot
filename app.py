@@ -18,6 +18,10 @@ app = Flask(__name__)
 line_bot_api = LineBotApi(line_token)
 
 def getBaseRate(event):
+  """
+  譜面定数 <曲名>の発言がされたら<曲名>の譜面定数を返す
+  """
+
   match = re.search("^譜面定数\s(.+)", event["message"]["text"])
   music_name = match.group(1)
   encoded = urllib.parse.quote(music_name)
@@ -26,17 +30,26 @@ def getBaseRate(event):
     html = res.read().decode("utf-8")
     ratelist_json = json.loads(html)
     if ratelist_json["items"]:
-      fully_music_name = ratelist_json["items"][0]["music_name"]
-      base_rate = ratelist_json["items"][0]["baserate"]
-      try:
-        line_bot_api.reply_message(event["replyToken"], TextSendMessage(text=fully_music_name + "の譜面定数は " + str(base_rate) + "だよ。" ))
-      except LineBotApiError as e:
-        print ("ERROR")
+      if "baserate" in ratelist_json["items"][0]:
+        fully_music_name = ratelist_json["items"][0]["music_name"]
+        base_rate = ratelist_json["items"][0]["baserate"]
+        send_text = fully_music_name + "の譜面定数は " + str(base_rate) + "だよ。"
+      else:
+        send_text =  "ごめん、その曲は譜面定数はまだわからないみたいだ"
+
     else:
-      print ("ごめん、その曲は見つからなかったよ")
+      send_text = "ごめん、その曲は見つからなかったよ"
+
+    try:
+      line_bot_api.reply_message(event["replyToken"], TextSendMessage(text=send_text))
+    except LineBotApiError as e:
+      print ("ERROR")
 
 @app.route("/webhook", methods=['POST'])
 def webhook():
+  """
+  Lineからのリクエストをまずこの関数で受け取って送られてきたメッセージに応じて処理を分ける
+  """
   req = json.loads(request.get_data(as_text=True))
   for event in req["events"]:
     if re.match("^譜面定数\s", event["message"]["text"]):
@@ -54,15 +67,6 @@ def webhook():
 @app.route("/", methods=['GET'])
 def test():
   return 'テスト'
-#    hoge = request.args.get('hoge', '')
-#    match = re.search("^譜面定数\s(.+)", hoge)
-#    if match:
-#      music_name = match.group(1)
-#      getBaseRate(music_name)
-#      return "OK"
-#    else:
-#      return "NG"
-#    #return '<h1> test </h1>'
 
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 4000))
