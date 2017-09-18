@@ -29,7 +29,7 @@ def getBaseRate(event):
       fully_music_name = ratelist_json["items"][0]["music_name"]
       base_rate = ratelist_json["items"][0]["baserate"]
       try:
-        line_bot_api.reply_message(event["replyToken"], TextSendMessage(text=fully_music_name + "の譜面定数は " + base_rate + "だよ。" ))
+        line_bot_api.reply_message(event["replyToken"], TextSendMessage(text=fully_music_name + "の譜面定数は " + str(base_rate) + "だよ。" ))
       except LineBotApiError as e:
         print ("ERROR")
     else:
