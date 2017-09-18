@@ -45,6 +45,14 @@ def getBaseRate(event):
     except LineBotApiError as e:
       print ("ERROR")
 
+
+def daaaa(event):
+  send_text = "(チャーーラーラーrーtrwrgwウィmrgtzbダツツダツツダツツダツツダツダツデツツデツツ"
+  try:
+    line_bot_api.reply_message(event["replyToken"], TextSendMessage(text=send_text))
+  except LineBotApiError as e:
+    print ("ERROR")
+
 @app.route("/webhook", methods=['POST'])
 def webhook():
   """
@@ -54,15 +62,10 @@ def webhook():
   for event in req["events"]:
     if re.match("^譜面定数\s", event["message"]["text"]):
       getBaseRate(event)
-    reply_token = event["replyToken"]
-    try:
-      line_bot_api.reply_message(reply_token, TextSendMessage(text='Hello!'))
-    except LineBotApiError as e:
-      print ("ERROR")
+    elif re.match("(.*)だー+$", event["message"]["text"]):
+      daaaa(event)
   
   return ""
-  #body = request.get_data(as_text=True)
-  #print 
 
 @app.route("/", methods=['GET'])
 def test():
