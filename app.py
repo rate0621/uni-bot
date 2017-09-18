@@ -11,7 +11,8 @@ from linebot import LineBotApi
 from linebot.models import TextSendMessage
 from linebot.exceptions import LineBotApiError
 
-BASE_URL = os.environ["API_BASE_URL"]
+API_BASE_URL = os.environ["API_BASE_URL"]
+AUTH_BASE_URL = os.environ["AUTH_BASE_URL"]
 line_token = os.environ["LINE_CHANNEL_ACCESS_TOKEN"]
 
 app = Flask(__name__)
@@ -25,7 +26,7 @@ def getBaseRate(event):
   match = re.search("^譜面定数\s(.+)", event["message"]["text"])
   music_name = match.group(1)
   encoded = urllib.parse.quote(music_name)
-  request_url = BASE_URL + "get_baserate/" + encoded
+  request_url = API_BASE_URL + "get_baserate/" + encoded
   with urllib.request.urlopen(request_url) as res:
     html = res.read().decode("utf-8")
     ratelist_json = json.loads(html)
@@ -67,8 +68,25 @@ def webhook():
   
   return ""
 
-@app.route("/", methods=['GET'])
+@app.route("/test", methods=['GET'])
 def test():
+  """
+  TEST用
+  """
+  user_id = "hoge"
+  encoded = urllib.parse.quote(user_id)
+  url = AUTH_BASE_URL + "get_auth/" + encoded
+  with urllib.request.urlopen(url) as res:
+    html = res.read().decode("utf-8")
+    auth_json = json.loads(html)
+    if auth_json["items"]:
+      print (auth_json["items"][0]["user_id"])
+      print (auth_json["items"][0]["password"])
+
+  return "OK"
+
+@app.route("/", methods=['GET'])
+def hogehoge():
   return 'テスト'
 
 if __name__ == "__main__":
