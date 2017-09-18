@@ -11,7 +11,7 @@ from linebot import LineBotApi
 from linebot.models import TextSendMessage
 from linebot.exceptions import LineBotApiError
 
-BASE_URL = 'https://apex.oracle.com/pls/apex/chunithm/chunithm_music/';
+BASE_URL = os.environ["API_BASE_URL"]
 line_token = os.environ["LINE_CHANNEL_ACCESS_TOKEN"]
 
 app = Flask(__name__)
@@ -25,7 +25,7 @@ def getBaseRate(event):
   match = re.search("^譜面定数\s(.+)", event["message"]["text"])
   music_name = match.group(1)
   encoded = urllib.parse.quote(music_name)
-  request_url = BASE_URL + encoded
+  request_url = BASE_URL + "get_baserate/" + encoded
   with urllib.request.urlopen(request_url) as res:
     html = res.read().decode("utf-8")
     ratelist_json = json.loads(html)
