@@ -18,7 +18,8 @@ app = Flask(__name__)
 line_bot_api = LineBotApi(line_token)
 
 def getBaseRate(event):
-  music_name = re.search("^譜面定数\s(.+)", event["message"]["text"])
+  match = re.search("^譜面定数\s(.+)", event["message"]["text"])
+  music_name = match.group(1)
   encoded = urllib.parse.quote(music_name)
   request_url = BASE_URL + encoded
   with urllib.request.urlopen(request_url) as res:
