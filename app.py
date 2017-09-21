@@ -8,7 +8,7 @@ import re
 import urllib
 
 from linebot import LineBotApi
-from linebot.models import TextSendMessage
+from linebot.models import TextSendMessage, ImageSendMessage
 from linebot.exceptions import LineBotApiError
 
 API_BASE_URL = os.environ["API_BASE_URL"]
@@ -54,6 +54,15 @@ def daaaa(event):
   except LineBotApiError as e:
     print ("ERROR")
 
+def getImage(event):
+  try:
+    line_bot_api.reply_message(event["replyToken"], ImageSendMessage(original_content_url="https://dzwud19fd1isz.cloudfront.net/images/detailMain_miniature-dachshund.png?20170428", preview_image_url="https://dzwud19fd1isz.cloudfront.net/images/detailMain_miniature-dachshund.png?20170428"))
+  except LineBotApiError as e:
+    print ("ERROR")
+ 
+
+ImageSendMessage
+
 @app.route("/webhook", methods=['POST'])
 def webhook():
   """
@@ -65,6 +74,8 @@ def webhook():
       getBaseRate(event)
     elif re.match("(.*)だー+$", event["message"]["text"]):
       daaaa(event)
+    elif re.match("^画像\s", event["message"]["text"]):
+      getImage(event)
   
   return ""
 
