@@ -7,6 +7,8 @@ import json
 import re
 import urllib
 
+import lib.Common
+
 from linebot import LineBotApi
 from linebot.models import TextSendMessage, ImageSendMessage
 from linebot.exceptions import LineBotApiError
@@ -55,13 +57,17 @@ def daaaa(event):
     print ("ERROR")
 
 def getImage(event):
-  try:
-    line_bot_api.reply_message(event["replyToken"], ImageSendMessage(original_content_url="https://dzwud19fd1isz.cloudfront.net/images/detailMain_miniature-dachshund.png?20170428", preview_image_url="https://dzwud19fd1isz.cloudfront.net/images/detailMain_miniature-dachshund.png?20170428"))
-  except LineBotApiError as e:
-    print ("ERROR")
- 
+  match = re.search("^画像\s(.+)", event["message"]["text"])
+  image_name = match.group(1)
 
-ImageSendMessage
+  cmn = Common.Common()
+  image_url_list = cmn.getImageUrl(image_name, 1)
+  for image_url in image_url_list:
+    try:
+      line_bot_api.reply_message(event["replyToken"], ImageSendMessage(original_content_url=image_url, preview_image_url=image_url))
+    except LineBotApiError as e:
+      print ("getImage ERROR")
+ 
 
 @app.route("/webhook", methods=['POST'])
 def webhook():
