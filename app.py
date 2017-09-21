@@ -69,6 +69,13 @@ def getImage(event):
     except LineBotApiError as e:
       print ("getImage ERROR")
  
+def kuma(event):
+  send_text = "いぐぅぅぅぅぅぅ！！"
+  try:
+    line_bot_api.reply_message(event["replyToken"], TextSendMessage(text=send_text))
+  except LineBotApiError as e:
+    print ("ERROR")
+
 
 @app.route("/webhook", methods=['POST'])
 def webhook():
@@ -83,6 +90,8 @@ def webhook():
       daaaa(event)
     elif re.match("^画像\s", event["message"]["text"]):
       getImage(event)
+    elif re.match("^くま\sゲーセンいく？", event["message"]["text"]):
+      kuma(event)
   
   return ""
 
