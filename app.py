@@ -7,7 +7,7 @@ import json
 import re
 import urllib
 
-import lib.Common
+import lib.Common as Common
 
 from linebot import LineBotApi
 from linebot.models import TextSendMessage, ImageSendMessage
