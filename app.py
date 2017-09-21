@@ -61,17 +61,13 @@ def getImage(event):
   image_name = match.group(1)
 
   cmn = Common.Common()
-  image_url_dict = cmn.getImageUrl(image_name, 1)
-  try:
-    line_bot_api.reply_message(event["replyToken"], ImageSendMessage(original_content_url=image_url_dict["link"], preview_image_url=image_url_dict["thumbnail"]))
-  except LineBotApiError as e:
-    print ("getImage ERROR")
+  image_url_list = cmn.getImageUrl(image_name, 1)
 
-#  for image_url in image_url_list:
-#    try:
-#      line_bot_api.reply_message(event["replyToken"], ImageSendMessage(original_content_url=image_url, preview_image_url=image_url))
-#    except LineBotApiError as e:
-#      print ("getImage ERROR")
+  for image_url in image_url_list:
+    try:
+      line_bot_api.reply_message(event["replyToken"], ImageSendMessage(original_content_url=image_url, preview_image_url=image_url))
+    except LineBotApiError as e:
+      print ("getImage ERROR")
  
 
 @app.route("/webhook", methods=['POST'])
