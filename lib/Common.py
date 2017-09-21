@@ -17,7 +17,8 @@ class Common():
       res = urllib.request.urlopen(query_img)
       data = json.loads(res.read().decode('utf-8'))
       for j in range(len(data["items"])):
-        img_list.append(data["items"][j]["link"])
+        img_list.append(data["items"][j]["image"]["thumbnailLink"])
+        #img_list.append(data["items"][j]["link"])
       i=i+10
     return img_list
 
