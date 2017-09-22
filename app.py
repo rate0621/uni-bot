@@ -90,7 +90,7 @@ def webhook():
       daaaa(event)
     elif re.match("^画像\s", event["message"]["text"]):
       getImage(event)
-    elif re.match("^くま", event["message"]["text"]):
+    elif re.match("くま", event["message"]["text"]):
       kuma(event)
   
   return ""
