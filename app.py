@@ -46,7 +46,7 @@ def getBaseRate(event):
     try:
       line_bot_api.reply_message(event["replyToken"], TextSendMessage(text=send_text))
     except LineBotApiError as e:
-      print ("ERROR")
+      print (e)
 
 
 def daaaa(event):
@@ -54,7 +54,7 @@ def daaaa(event):
   try:
     line_bot_api.reply_message(event["replyToken"], TextSendMessage(text=send_text))
   except LineBotApiError as e:
-    print ("ERROR")
+    print (e)
 
 def getImage(event):
   match = re.search("^画像\s(.+)", event["message"]["text"])
@@ -67,14 +67,14 @@ def getImage(event):
     try:
       line_bot_api.reply_message(event["replyToken"], ImageSendMessage(original_content_url=image_url, preview_image_url=image_url))
     except LineBotApiError as e:
-      print ("getImage ERROR")
+      print (e)
  
 def kuma(event):
-  send_text = "いぐぅぅぅぅぅぅ！！"
+  send_text = "ぁ？虹レートぞ？敬語使えよ"
   try:
     line_bot_api.reply_message(event["replyToken"], TextSendMessage(text=send_text))
   except LineBotApiError as e:
-    print ("ERROR")
+    print (e)
 
 
 @app.route("/webhook", methods=['POST'])
@@ -90,7 +90,7 @@ def webhook():
       daaaa(event)
     elif re.match("^画像\s", event["message"]["text"]):
       getImage(event)
-    elif re.match("^くま\sゲーセンいく？", event["message"]["text"]):
+    elif re.match("^くま", event["message"]["text"]):
       kuma(event)
   
   return ""
