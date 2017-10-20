@@ -87,12 +87,12 @@ def responseForStamp(event):
   # ネガ子ちゃんStamp(1233295)に対するレスポンス
   if event["message"]["packageId"] == "1233295":
     image_list = os.listdir(here + "/static/negami/")
-    print (image_list)
     # 「ポチッとな」
     if event["message"]["stickerId"] == "9468023":
       image_list = ["2.png", "4.png", "5.png", "7.png", "9.png"]
  
-  image_url = random.choice(image_list)
+  image_url = static_path + "/negami/" + random.choice(image_list)
+  print (image_url)
   try:
     line_bot_api.reply_message(event["replyToken"], ImageSendMessage(original_content_url=image_url, preview_image_url=image_url))
   except LineBotApiError as e:
