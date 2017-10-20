@@ -20,6 +20,8 @@ line_token = os.environ["LINE_CHANNEL_ACCESS_TOKEN"]
 app = Flask(__name__)
 line_bot_api = LineBotApi(line_token)
 
+static_path = "https://uni-bot-py.herokuapp.com/static"
+
 def getBaseRate(event):
   """
   譜面定数 <曲名>の発言がされたら<曲名>の譜面定数を返す
@@ -77,14 +79,13 @@ def kuma(event):
     print (e)
 
 def responseForStamp(event):
-  send_text = ""
-  here = os.path.join( os.path.dirname(os.path.abspath(__file__)))
 
+  image_url = ""
   # ネガ子ちゃんStamp(1233295)に対するレスポンス
   if event["message"]["packageId"] == "1233295":
     # 「ポチッとな」
     if event["message"]["stickerId"] == "9468023":
-      image_url = here + "https://uni-bot-py.herokuapp.com/static/negami/negami1.png"
+      image_url = static_path + "/negami/negami1.png"
       
   try:
     line_bot_api.reply_message(event["replyToken"], ImageSendMessage(original_content_url=image_url, preview_image_url=image_url))
