@@ -84,14 +84,15 @@ def webhook():
   """
   req = json.loads(request.get_data(as_text=True))
   for event in req["events"]:
-    if re.match("^譜面定数\s", event["message"]["text"]):
-      getBaseRate(event)
-    elif re.match("(.*)だー+$", event["message"]["text"]):
-      daaaa(event)
-    elif re.match("^画像\s", event["message"]["text"]):
-      getImage(event)
-    elif re.search("くま", event["message"]["text"]):
-      kuma(event)
+    if "text" in event["message"]:
+      if re.match("^譜面定数\s", event["message"]["text"]):
+        getBaseRate(event)
+      elif re.match("(.*)だー+$", event["message"]["text"]):
+        daaaa(event)
+      elif re.match("^画像\s", event["message"]["text"]):
+        getImage(event)
+      elif re.search("くま", event["message"]["text"]):
+        kuma(event)
   
   return ""
 
