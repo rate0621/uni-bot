@@ -77,6 +77,8 @@ def kuma(event):
     print (e)
 
 def responseForStamp(event):
+  send_text = ""
+
   # ネガ子ちゃんStamp(1233295)に対するレスポンス
   if event["message"]["packageId"] == "1233295":
     # 「ポチッとな」
@@ -95,7 +97,7 @@ def webhook():
   """
   req = json.loads(request.get_data(as_text=True))
   for event in req["events"]:
-    print (event)
+    print (event["message"]["stickerId"])
     if "text" in event["message"]:
       if re.match("^譜面定数\s", event["message"]["text"]):
         getBaseRate(event)
