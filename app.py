@@ -6,6 +6,7 @@ import requests
 import json
 import re
 import urllib
+import random
 
 import lib.Common as Common
 
@@ -80,13 +81,18 @@ def kuma(event):
 
 def responseForStamp(event):
 
+  here = os.path.join( os.path.dirname(os.path.abspath(__file__)))
+  image_list = []
   image_url = ""
   # ネガ子ちゃんStamp(1233295)に対するレスポンス
   if event["message"]["packageId"] == "1233295":
+    image_list = os.listdir(here + "/static/negami/")
+    print (image_list)
     # 「ポチッとな」
     if event["message"]["stickerId"] == "9468023":
-      image_url = static_path + "/negami/negami1.png"
-      
+      image_list = ["2.png", "4.png", "5.png", "7.png", "9.png"]
+ 
+  image_url = random.choice(image_list)
   try:
     line_bot_api.reply_message(event["replyToken"], ImageSendMessage(original_content_url=image_url, preview_image_url=image_url))
   except LineBotApiError as e:
@@ -99,7 +105,6 @@ def webhook():
   """
   req = json.loads(request.get_data(as_text=True))
   for event in req["events"]:
-    print (event["message"]["stickerId"])
     if "text" in event["message"]:
       if re.match("^譜面定数\s", event["message"]["text"]):
         getBaseRate(event)
