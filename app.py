@@ -78,15 +78,16 @@ def kuma(event):
 
 def responseForStamp(event):
   send_text = ""
+  here = os.path.join( os.path.dirname(os.path.abspath(__file__)))
 
   # ネガ子ちゃんStamp(1233295)に対するレスポンス
   if event["message"]["packageId"] == "1233295":
     # 「ポチッとな」
     if event["message"]["stickerId"] == "9468023":
-      send_text = "あ！！また課金した！！！"
+      image_url = here + "/datas/negami/negami1.png"
       
   try:
-    line_bot_api.reply_message(event["replyToken"], TextSendMessage(text=send_text))
+    line_bot_api.reply_message(event["replyToken"], ImageSendMessage(original_content_url=image_url, preview_image_url=image_url))
   except LineBotApiError as e:
     print (e)
 
