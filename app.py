@@ -84,7 +84,7 @@ def responseForStamp(event):
   if event["message"]["packageId"] == "1233295":
     # 「ポチッとな」
     if event["message"]["stickerId"] == "9468023":
-      image_url = here + "/datas/negami/negami1.png"
+      image_url = here + "https://uni-bot-py.herokuapp.com/static/negami/negami1.png"
       
   try:
     line_bot_api.reply_message(event["replyToken"], ImageSendMessage(original_content_url=image_url, preview_image_url=image_url))
