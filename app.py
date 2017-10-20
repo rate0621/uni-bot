@@ -77,7 +77,16 @@ def kuma(event):
     print (e)
 
 def responseForStamp(event):
-  print (event["message"]["sticker"])
+  # ネガ子ちゃんStamp(1233295)に対するレスポンス
+  if event["message"]["packageId"] == "1233295":
+    # 「ポチッとな」
+    if event["message"]["stickerId"] == "9468023":
+      send_text = "あ！！また課金した！！！"
+      
+  try:
+    line_bot_api.reply_message(event["replyToken"], TextSendMessage(text=send_text))
+  except LineBotApiError as e:
+    print (e)
 
 @app.route("/webhook", methods=['POST'])
 def webhook():
