@@ -76,6 +76,8 @@ def kuma(event):
   except LineBotApiError as e:
     print (e)
 
+def responseForStamp(event):
+  print (event["message"]["sticker"])
 
 @app.route("/webhook", methods=['POST'])
 def webhook():
@@ -93,6 +95,8 @@ def webhook():
         getImage(event)
       elif re.search("くま", event["message"]["text"]):
         kuma(event)
+    if "sticker" in event["message"]:
+      responseForStamp(event)
   
   return ""
 
