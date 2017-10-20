@@ -107,7 +107,7 @@ def webhook():
         getImage(event)
       elif re.search("くま", event["message"]["text"]):
         kuma(event)
-    if "sticker" in event["message"]:
+    if event["message"]["type"] == "sticker":
       responseForStamp(event)
   
   return ""
