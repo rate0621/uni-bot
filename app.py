@@ -86,6 +86,7 @@ def webhook():
   """
   req = json.loads(request.get_data(as_text=True))
   for event in req["events"]:
+    print (event)
     if "text" in event["message"]:
       if re.match("^譜面定数\s", event["message"]["text"]):
         getBaseRate(event)
