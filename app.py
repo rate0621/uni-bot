@@ -89,7 +89,7 @@ def responseForStamp(event):
     image_list = os.listdir(here + "/static/negami/")
     # 「ポチッとな」
     if event["message"]["stickerId"] == "9468023":
-      image_list = ["2.png", "4.png", "5.png", "7.png", "8.png"]
+      image_list = ["1.png", "3.png", "4.png", "6.png", "7.png"]
  
   image_url = static_path + "/negami/" + random.choice(image_list)
   print (image_url)
