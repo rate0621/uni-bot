@@ -98,6 +98,13 @@ def responseForStamp(event):
   except LineBotApiError as e:
     print (e)
 
+def tiqav(event):
+  try:
+    line_bot_api.reply_message(event["replyToken"], ImageSendMessage(original_content_url='https://img.tiqav.com/2DJ.jpg', preview_image_url='https://img.tiqav.com/2DJ.jpg'))
+  except LineBotApiError as e:
+    print (e)
+
+
 @app.route("/webhook", methods=['POST'])
 def webhook():
   """
@@ -114,6 +121,8 @@ def webhook():
         getImage(event)
       elif re.search("くま", event["message"]["text"]):
         kuma(event)
+      elif re.search("ちくわ\s", event["message"]["text"]):
+        tiqav(event)
     if event["message"]["type"] == "sticker":
       responseForStamp(event)
   
