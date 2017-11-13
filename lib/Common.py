@@ -4,6 +4,7 @@ import httplib2
 import json
 import re
 import os, sys
+import random
 
 class Common():
   def getImageUrl(self, search_item, total_num):
@@ -30,9 +31,23 @@ class Common():
 
     return img_list
 
+  def getTiqavImageUrl(self, search_item):
+    '''
+    @param  検索文字列（str）
+    @return 画像のリンクURL（str）
+    '''
+
+    query_img = "http://api.tiqav.com/search.json?q=" + urllib.parse.quote(search_item)
+    res = urllib.request.urlopen(query_img)
+    image_info_list = json.loads(res.read().decode('utf-8'))
+    image_info = random.choice(image_info_list)
+
+    url = 'https://img.tiqav.com/' + image_info['id'] + '.' + image_info['ext']
+
+    return url
 
 if __name__ == "__main__":
   args = sys.argv
   common = Common()
-  img_dict = common.getImageUrl(args[1], 1)
-  print(img_dict)
+  img_url = common.getTiqavImageUrl(args[1])
+  print(img_url)

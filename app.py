@@ -99,8 +99,14 @@ def responseForStamp(event):
     print (e)
 
 def tiqav(event):
+  match = re.search("^ちくわ\s(.+)", event["message"]["text"])
+  image_name = match.group(1)
+
+  cmn = Common.Common()
+  image_url = cmn.getTiqavImageUrl(image_name)
+
   try:
-    line_bot_api.reply_message(event["replyToken"], ImageSendMessage(original_content_url='https://img.tiqav.com/2DJ.jpg', preview_image_url='https://img.tiqav.com/2DJ.jpg'))
+    line_bot_api.reply_message(event["replyToken"], ImageSendMessage(original_content_url=image_url, preview_image_url=image_url))
   except LineBotApiError as e:
     print (e)
 
