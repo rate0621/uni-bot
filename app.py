@@ -8,15 +8,20 @@ import re
 import urllib
 import random
 
-import lib.Common as Common
+import common_lib.Common as Common
+import common_lib.uni_common_tools.ChunithmNet as ChunithmNet
 
 from linebot import LineBotApi
 from linebot.models import TextSendMessage, ImageSendMessage
 from linebot.exceptions import LineBotApiError
 
-API_BASE_URL = os.environ["API_BASE_URL"]
-AUTH_BASE_URL = os.environ["AUTH_BASE_URL"]
-line_token = os.environ["LINE_CHANNEL_ACCESS_TOKEN"]
+#API_BASE_URL  = os.environ["API_BASE_URL"]
+#AUTH_BASE_URL = os.environ["AUTH_BASE_URL"]
+#line_token    = os.environ["LINE_CHANNEL_ACCESS_TOKEN"]
+
+API_BASE_URL  = os.getenv("API_BASE_URL", "")
+AUTH_BASE_URL = os.getenv("AUTH_BASE_URL", "")
+line_token    = os.getenv("LINE_CHANNEL_ACCESS_TOKEN", "")
 
 app = Flask(__name__)
 line_bot_api = LineBotApi(line_token)
@@ -110,6 +115,26 @@ def tiqav(event):
   except LineBotApiError as e:
     print (e)
 
+def bestRate(event):
+  match = re.search("^ベストレート\s(.+)", event["message"]["text"])
+  name  = match.group(1)
+
+  send_text = ''
+  if name == 'チャット':
+    ID   = os.environ['CHUNITHM_MY_ID']
+    PASS = os.environ['CHUNITHM_MY_PASS']
+    cn   = ChunithmNet.ChunithmNet(ID, PASS)
+    best_rate = cn.get_my_best_rate()
+    send_text = best_rate
+  else:
+    send_text = 'そんなやつしらねえ'
+
+
+  try:
+    line_bot_api.reply_message(event["replyToken"], TextSendMessage(text=send_text))
+  except LineBotApiError as e:
+    print (e)
+  
 
 @app.route("/webhook", methods=['POST'])
 def webhook():
@@ -129,10 +154,37 @@ def webhook():
         kuma(event)
       elif re.search("ちくわ\s", event["message"]["text"]):
         tiqav(event)
+      elif re.search("ベストレート\s", event["message"]["text"]):
+        bestRate(event)
     if event["message"]["type"] == "sticker":
       responseForStamp(event)
   
   return ""
+
+@app.route("/local_test", methods=['GET'])
+def local_test():
+  """
+  herokuにデプロイする前にローカルでテストしたいとき用
+  http://localhost:4000/local_test?param=hogehoge  みたいな感じでアクセス
+  """
+  param = request.args.get('param')
+
+  event = {}
+  event["message"] = {}
+  event["message"]["text"] = param
+  if re.match("^譜面定数\s", param):
+    getBaseRate(event)
+  elif re.match("(.*)だー+$", param):
+    daaaa(event)
+  elif re.match("^画像\s", param):
+    getImage(event)
+  elif re.search("くま", param):
+    kuma(event)
+  elif re.search("ちくわ\s", param):
+    tiqav(event)
+  elif re.search("ベストレート\s", param):
+    bestRate(event)
+
 
 @app.route("/test", methods=['GET'])
 def test():
