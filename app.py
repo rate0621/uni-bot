@@ -78,7 +78,7 @@ def getImage(event):
       print (e)
  
 def kuma(event):
-  send_text = "ぁ？虹レートぞ？敬語使えよ"
+  send_text = "conflict歌います。ズォールヒ～～↑ｗｗｗｗヴィヤーンタースｗｗｗｗｗワース フェスツｗｗｗｗｗｗｗルオルｗｗｗｗｗプローイユクｗｗｗｗｗｗｗダルフェ スォーイヴォーｗｗｗｗｗスウェンネｗｗｗｗヤットゥ ヴ ヒェンヴガｒジョｊゴアｊガオガオッガｗｗｗじゃｇｊｊ"
   try:
     line_bot_api.reply_message(event["replyToken"], TextSendMessage(text=send_text))
   except LineBotApiError as e:
