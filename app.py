@@ -78,11 +78,14 @@ def getImage(event):
       print (e)
  
 def kuma(event):
-  send_text = "conflict歌います。ズォールヒ～～↑ｗｗｗｗヴィヤーンタースｗｗｗｗｗワース フェスツｗｗｗｗｗｗｗルオルｗｗｗｗｗプローイユクｗｗｗｗｗｗｗダルフェ スォーイヴォーｗｗｗｗｗスウェンネｗｗｗｗヤットゥ ヴ ヒェンヴガｒジョｊゴアｊガオガオッガｗｗｗじゃｇｊｊ"
-  try:
-    line_bot_api.reply_message(event["replyToken"], TextSendMessage(text=send_text))
-  except LineBotApiError as e:
-    print (e)
+  cmn = Common.Common()
+  image_url_list = cmn.getImageUrl("高野麻里佳", 1)
+
+  for image_url in image_url_list:
+    try:
+      line_bot_api.reply_message(event["replyToken"], ImageSendMessage(original_content_url=image_url, preview_image_url=image_url))
+    except LineBotApiError as e:
+      print (e)
 
 def responseForStamp(event):
 
