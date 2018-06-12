@@ -139,6 +139,25 @@ def bestRate(event):
     print (e)
   
 
+def bestMusic(event):
+  match = re.search("^ベスト曲\s(.+)", event["message"]["text"])
+  name  = match.group(1)
+
+  send_text = ''
+  if name == 'チャット':
+    ID   = os.environ['CHUNITHM_MY_ID']
+    PASS = os.environ['CHUNITHM_MY_PASS']
+    cn   = ChunithmNet.ChunithmNet(ID, PASS)
+    best_music = cn.get_my_best_music_list()
+    send_text = "\n".join(best_music)
+  else:
+    send_text = 'そんなやつしらねえ'
+
+  try:
+    line_bot_api.reply_message(event["replyToken"], TextSendMessage(text=send_text))
+  except LineBotApiError as e:
+    print (e)
+
 @app.route("/webhook", methods=['POST'])
 def webhook():
   """
@@ -159,6 +178,8 @@ def webhook():
         tiqav(event)
       elif re.search("ベストレート\s", event["message"]["text"]):
         bestRate(event)
+      elif re.search("ベスト曲\s", param):
+        bestMusic(event)
     if event["message"]["type"] == "sticker":
       responseForStamp(event)
   
@@ -187,6 +208,8 @@ def local_test():
     tiqav(event)
   elif re.search("ベストレート\s", param):
     bestRate(event)
+  elif re.search("ベスト曲\s", param):
+    bestMusic(event)
 
 
 @app.route("/test", methods=['GET'])
