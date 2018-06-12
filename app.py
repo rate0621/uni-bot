@@ -178,7 +178,7 @@ def webhook():
         tiqav(event)
       elif re.search("ベストレート\s", event["message"]["text"]):
         bestRate(event)
-      elif re.search("ベスト曲\s", param):
+      elif re.search("ベスト曲\s", event["message"]["text"]):
         bestMusic(event)
     if event["message"]["type"] == "sticker":
       responseForStamp(event)
