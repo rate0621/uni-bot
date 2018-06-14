@@ -78,14 +78,15 @@ def getImage(event):
       print (e)
  
 def kuma(event):
-  cmn = Common.Common()
-  image_url_list = cmn.getImageUrl("高野麻里佳", 1)
+  here = os.path.join( os.path.dirname(os.path.abspath(__file__)))
+  image_list = []
+  image_list = os.listdir(here + "/static/marika/")
+  image_url = static_path + "/marika/" + random.choice(image_list)
 
-  for image_url in image_url_list:
-    try:
-      line_bot_api.reply_message(event["replyToken"], ImageSendMessage(original_content_url=image_url, preview_image_url=image_url))
-    except LineBotApiError as e:
-      print (e)
+  try:
+    line_bot_api.reply_message(event["replyToken"], ImageSendMessage(original_content_url=image_url, preview_image_url=image_url))
+  except LineBotApiError as e:
+    print (e)
 
 def responseForStamp(event):
 
