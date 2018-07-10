@@ -197,7 +197,7 @@ def webhook():
         bestRate(event)
       elif re.search("ベスト曲\s", event["message"]["text"]):
         bestMusic(event)
-      else
+      else:
         kimagureMarinka(event)
     if event["message"]["type"] == "sticker":
       responseForStamp(event)
