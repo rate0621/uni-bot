@@ -175,6 +175,14 @@ def kimagureMarinka(event):
   else:
     print ('not MARINKA!')
 
+def marinka(event):
+  send_text = 'チャットさん、好き///'
+  try:
+    line_bot_api.reply_message(event["replyToken"], TextSendMessage(text=send_text))
+  except LineBotApiError as e:
+    print (e)
+
+
 @app.route("/webhook", methods=['POST'])
 def webhook():
   """
@@ -197,6 +205,8 @@ def webhook():
         bestRate(event)
       elif re.search("ベスト曲\s", event["message"]["text"]):
         bestMusic(event)
+      elif re.search("まりんか", event["message"]["text"]):
+        marinka(event)
       else:
         kimagureMarinka(event)
     if event["message"]["type"] == "sticker":
