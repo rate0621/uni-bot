@@ -173,7 +173,7 @@ def kimagureMarinka(event):
     except LineBotApiError as e:
       print (e)
   else:
-    print ('not MARINKA')
+    print ('not MARINKA!')
 
 @app.route("/webhook", methods=['POST'])
 def webhook():
