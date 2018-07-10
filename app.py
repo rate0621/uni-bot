@@ -176,7 +176,8 @@ def kimagureMarinka(event):
     print ('not MARINKA!')
 
 def marinka(event):
-  send_text = 'チャットさん、好き///'
+  genkai_list = ['チャット', 'ステイル', ' だいなむ', 'くま', 'おかわり']
+  send_text = random.choice(genkai_list) + 'さん、好き///'
   try:
     line_bot_api.reply_message(event["replyToken"], TextSendMessage(text=send_text))
   except LineBotApiError as e:
