@@ -159,6 +159,22 @@ def bestMusic(event):
   except LineBotApiError as e:
     print (e)
 
+def kimagureMarinka(event):
+  num = random.randint(0, 100)
+
+  if num == 0:
+    here = os.path.join( os.path.dirname(os.path.abspath(__file__)))
+    image_list = []
+    image_list = os.listdir(here + "/static/marika/")
+    image_url = static_path + "/marika/" + random.choice(image_list)
+
+    try:
+      line_bot_api.reply_message(event["replyToken"], ImageSendMessage(original_content_url=image_url, preview_image_url=image_url))
+    except LineBotApiError as e:
+      print (e)
+  else:
+    print ('not MARINKA')
+
 @app.route("/webhook", methods=['POST'])
 def webhook():
   """
@@ -181,6 +197,8 @@ def webhook():
         bestRate(event)
       elif re.search("ベスト曲\s", event["message"]["text"]):
         bestMusic(event)
+      else
+        kimagureMarinka(event)
     if event["message"]["type"] == "sticker":
       responseForStamp(event)
   
