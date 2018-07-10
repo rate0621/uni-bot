@@ -10,6 +10,7 @@ import random
 
 import common_lib.Common as Common
 import common_lib.uni_common_tools.ChunithmNet as ChunithmNet
+import common_lib.priconne_gacha_simulator.GachaSimulation as GachaSimulation
 
 from linebot import LineBotApi
 from linebot.models import TextSendMessage, ImageSendMessage
@@ -183,6 +184,15 @@ def marinka(event):
   except LineBotApiError as e:
     print (e)
 
+def priconneGacha(event):
+  gs = GachaSimulation.GachaSimulation()
+  _list = gs.roll10()
+  send_text = "\n".join(_list)
+
+  try:
+    line_bot_api.reply_message(event["replyToken"], TextSendMessage(text=send_text))
+  except LineBotApiError as e:
+    print (e)
 
 @app.route("/webhook", methods=['POST'])
 def webhook():
@@ -206,8 +216,10 @@ def webhook():
         bestRate(event)
       elif re.search("ベスト曲\s", event["message"]["text"]):
         bestMusic(event)
-      elif re.search("まりんか", event["message"]["text"]):
-        marinka(event)
+      elif re.search("プリコネ\sガチャ", event["message"]["text"]):
+        priconneGacha(event)
+#      elif re.search("まりんか", event["message"]["text"]):
+#        marinka(event)
       else:
         kimagureMarinka(event)
     if event["message"]["type"] == "sticker":
@@ -240,6 +252,8 @@ def local_test():
     bestRate(event)
   elif re.search("ベスト曲\s", param):
     bestMusic(event)
+  elif re.search("プリコネ\sガチャ", param):
+    priconneGacha(event)
 
 
 @app.route("/test", methods=['GET'])
