@@ -11,6 +11,9 @@
 
 ※submoduleを使っているため、--recursiveを付与
 
+### submoduleを最新化させる
+`git submodule foreach git pull origin master`
+
 ### herokuへpush
 
 通常であればgitへのpushをフックして、herokuへデプロイできるが、
