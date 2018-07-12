@@ -197,7 +197,7 @@ def priconneGacha(event):
   static_dir = os.listdir(here + "/static/")
 
   filename = random.random()
-  shutil.move(gacha_result_path, static_dir + filename)
+  shutil.move(gacha_result_path, static_dir + str(filename))
 
   image_url = static_path + '/' + filename
 
