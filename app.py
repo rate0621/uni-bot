@@ -199,7 +199,7 @@ def priconneGacha(event):
   filename = random.random()
   shutil.move(gacha_result_path, static_dir + str(filename))
 
-  image_url = static_path + '/' + filename
+  image_url = static_path + '/' + str(filename)
 
   try:
     line_bot_api.reply_message(event["replyToken"], ImageSendMessage(original_content_url=image_url, preview_image_url=image_url))
