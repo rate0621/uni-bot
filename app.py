@@ -194,7 +194,7 @@ def priconneGacha(event):
   gacha_result_path = ig.gacha_result_generator(charactor_list)
 
   here = os.path.join( os.path.dirname(os.path.abspath(__file__)))
-  static_dir = os.listdir(here + "/static/")
+  static_dir = here + "/static/"
 
   filename = random.random()
   shutil.move(gacha_result_path, static_dir + str(filename))
