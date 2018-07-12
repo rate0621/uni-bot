@@ -7,6 +7,7 @@ import json
 import re
 import urllib
 import random
+import shutil
 
 import common_lib.Common as Common
 import common_lib.uni_common_tools.ChunithmNet as ChunithmNet
@@ -186,13 +187,23 @@ def marinka(event):
 
 def priconneGacha(event):
   gs = GachaSimulation.GachaSimulation()
-  _list = gs.roll10()
-  send_text = "\n".join(_list)
+  charactor_list = gs.roll10()
+
+  ig = ImageGenerator.ImageGenerator()
+  gacha_result_path = ig.gacha_result_generator(charactor_list)
+
+  here = os.path.join( os.path.dirname(os.path.abspath(__file__)))
+  static_dir = os.listdir(here + "/static/")
+
+  filename = random.random()
+  shutil.move(gacha_result_path, static_dir + filename)
+
+  image_url = static_path + '/' + filename
 
   try:
-    line_bot_api.reply_message(event["replyToken"], TextSendMessage(text=send_text))
+    line_bot_api.reply_message(event["replyToken"], ImageSendMessage(original_content_url=image_url, preview_image_url=image_url))
   except LineBotApiError as e:
-    print (e)
+     print (e)
 
 @app.route("/webhook", methods=['POST'])
 def webhook():
