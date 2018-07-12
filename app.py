@@ -12,6 +12,7 @@ import shutil
 import common_lib.Common as Common
 import common_lib.uni_common_tools.ChunithmNet as ChunithmNet
 import common_lib.priconne_gacha_simulator.GachaSimulation as GachaSimulation
+import common_lib.priconne_gacha_simulator.ImageGenerator as ImageGenerator
 
 from linebot import LineBotApi
 from linebot.models import TextSendMessage, ImageSendMessage
