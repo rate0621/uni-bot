@@ -206,6 +206,20 @@ def priconneGacha(event):
   except LineBotApiError as e:
      print (e)
 
+
+def priconneYabai(event):
+  here = os.path.join( os.path.dirname(os.path.abspath(__file__)))
+  image_list = []
+  image_list = os.listdir(here + "/static/priconne/")
+  # 0.png:「やばいですね」スタンプ
+  image_url = static_path + "/priconne/0.png"
+
+  try:
+    line_bot_api.reply_message(event["replyToken"], ImageSendMessage(original_content_url=image_url, preview_image_url=image_url))
+  except LineBotApiError as e:
+    print (e)
+
+
 @app.route("/webhook", methods=['POST'])
 def webhook():
   """
@@ -230,6 +244,8 @@ def webhook():
         bestMusic(event)
       elif re.search("プリコネ\sガチャ", event["message"]["text"]):
         priconneGacha(event)
+      elif re.search("やばい", event["message"]["text"]):
+        priconneYabai(event)
 #      elif re.search("まりんか", event["message"]["text"]):
 #        marinka(event)
       else:
